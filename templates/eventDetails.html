@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS -->   
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!--Custom Styles-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css')}}" /> 
+
+        <!-- Owl Carousel -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
+
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png')}}" />
+        <title>Event Details | Event Manager</title>
+    </head>
+
+    <body>
+        <div class="menu-bar">
+            <!-- NAVBAR -->
+            <nav class="navbar navbar-expand-md navbar-dark sticky-top">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="index.html"><img src="{{ url_for('static', filename='img/logo.png')}}" alt="Event Manager Logo"></a>
+                    <!--SEARCH BAR-->
+                    <form class="form-inline ml-4" action="search_browseEvents.html" method="GET">                                                                            <!--incoming search bar-->
+                        <input class="form control py-2 border-right-0 border" type="search" placeholder="Search for..." name="searchbar">
+                        <button class="btn btn-primary btn-outline-secondary border" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                    <!--HAMBURGER MENU/ NAV LINKS-->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="search_browseEvents.html" style="border-right: 1px solid #FFF; padding-right: 20px; margin-right: 10px">Browse Events</a>
+                            </li>
+							{% if logedIn == True %}
+                            <li class="nav-item">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img class="img-circle" src="{{ url_for('static', filename='img/logo.png')}}">     
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="updatePersonalInfo.html"><i class="fa fa-user fa-md"></i> My Account</a>
+                                        <a class="dropdown-item" href="createEvent.html"><i class="fa fa-calendar-plus-o fa-md"></i> Create An Event</a>
+                                        <a class="dropdown-item" href="manageEvents.html"><i class="fa fa-edit fa-md"></i> Manage Events</a>
+                                        <a class="dropdown-item" href="#modalLogout" data-toggle="modal"><i class="fa fa-sign-out fa-md"></i> Log Out</a>
+                                    </div>
+                                </div>    
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="registerPage.html"><i class="fa fa-user-plus"></i> Sign-Up</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="loginPage.html"><i class="fa fa-sign-in"></i> Login</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>  <!--collapse-->
+                </div>  <!--container-->
+            </nav>
+        </div>  <!--menu-bar-->
+
+        <!--Logout modal-->
+        <div class="modal fade" id="modalLogout" tabindex="-1" role="dialog" aria-labelledby="modalHeader" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="modalHeader">Confirm Logout</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                  <form action="#" method="POST">
+                    <div class="form-group">
+                        <input type='button' value="CANCEL" data-dismiss="modal" id="dismissButton" />      
+                        <input type='submit' value="YES" name="userLogout" id="payButton" />    <!--incoming user logs out-->
+                    </div>    
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!--Payment modal-->
+        <div class="modal fade" id="modalPayment" tabindex="-1" role="dialog" aria-labelledby="modalHeader" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalHeader">Confirm Payment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="#" method="POST">
+                            <div class="form-group">
+                                <input type="text" placeholder="Name"  name="cardName" value="{{cardName}}"/>
+                                <input type="text" placeholder="Billing Address"  name="billAdd" value="{{billAdd}}" />
+                                <input type="text" placeholder="Credit Card Number" name="creditCardNum" value="{{creditCardNum}}" onkeypress="numbersOnly(event)"/>
+                                <input type="date" placeholder="Expiration Date" name="expiration" value="{{expiration}}" />
+                                <input type="text" placeholder="CSV" name="csv" value="{{csv}}" onkeypress="numbersOnly(event)"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="#" method="POST">
+                            <input type='button' value="CANCEL" data-dismiss="modal" />
+                            <input type="text" name="eventId" value="{{eventId}}" hidden>
+                            <input type="submit" value="ATTEND" name="attend" >
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <!-- CONTENTS -->
+        <div class="container">
+	        <!-- EVENT DETAILS -->
+            <div class="row row-content">
+                <div class="col">
+                    <div class="media">
+                        <img class="d-flex mr-5 img-fluid img-thumbnail" src="{{ url_for('static', filename=eventITag)}}" alt="Event Image" />     <!--outgoing event image-->
+                        <div class="media-body align-self-center">
+                            <div class="d-flex justify-content-between">
+                                <h2>{{ eventTitle }}</h2>                                               <!--outgoing event title-->
+                                <span id="capacity" class="text-success mr-4">Current Capacity: {{ eventCap }}/{{ eventMaxPop }}</span>                            <!--outgoing event capacity-->
+                            </div>
+                            <h4>${{ eventPrice }}</h4>                                                        <!--outgoing event price-->
+							<h5>Date: {{ eventStartDate }} to {{ eventEndDate }}</h5>                                                     <!--outgoing event date-->
+                            <h5>Time: {{ eventSTime }} - {{ eventETime }}</h5>  
+                            <form action="#" method="POST">
+                                <div class="form-group">
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                        <p style="color: #DC3545">{{ message }} </p>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% endwith %}
+                                    {%  if eventPrice > 0 %}
+                                    <input type="button" value="ATTEND" name="attend" data-toggle="modal" data-target="#modalPayment" id="attendButton" />   
+                                    {%  elif eventPrice <= 0 %}
+                                    <input type="text" name="eventId" value="{{eventId}}" hidden>
+                                    <input type="submit" value="ATTEND" name="attend" >
+                                    {% endif %}
+                                </div>          
+                            </form>
+                        </div>  <!--media-body-->
+                    </div>  <!--media-->
+                </div>  <!--col-->
+            </div>  <!--row-->
+
+            <div class="row row-content">
+                <div class="col col-sm-7">
+                    <p>Event Description: {{ eventDescription }}</p> <!--outgoing event description-->
+                </div>  <!--col-->
+                <div class="col">
+                    <h4>Address: {{ eventAddress }}</h4> <!--outgoing event address-->
+                    <h5>City: {{ eventCity }}</h5>     <!--outgoing event city-->         
+                    <h5>State: {{ eventState }}</h5>    <!--outgoing event state-->
+                    <h5>Zip: {{ eventZip }}</h5>      <!--outgoing event zip-->
+                </div>
+            </div>  <!--row-->
+
+            <!-- POPULAR EVENTS -->
+            <div class="row row-content">
+                <div class="col-sm-6">
+                    <h2>Popular Events</h2>
+                </div>  <!--col-->
+                <div class="owl-carousel owl-theme">
+                    {% for i in range (0, popEventRange) %}
+                    <div class="ms-2 me-2">
+                        <div class="card">
+                            <img src="{{ url_for('static', filename=popEventsItag[i])}}" alt="Concert Event" class="card-img-top">    <!--outgoing event image-->
+                            <div class="card-body">
+                                <h4 class="card-title">{{ popEventsTitle[i] }}</h4>                                                                  <!--outgoing event title-->
+                                <p class="card-text">{{ popEventsDetails[i] }}</p>      
+                                <form action="{{url_for('eventDetails')}}" id="eventDetailForm", method="POST">
+                                    <input type="text" name="eventId" value="{{popEventsId[i]}}" hidden>
+                                    <input type="submit" value="Read More">
+                                </form>                      
+                            </div>  <!--card-body-->
+                        </div>  <!--card-->
+                    </div>  <!--ms-2 me-2-->
+                    {% endfor %}
+                </div>  <!--owl-carousel-->
+            </div>  <!--row-->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">    
+            <div class="container-fluid"> 
+                <div class="row">   
+                    <div class="col">
+                        <div class="media">
+                            <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Event Manager Logo">
+                            <div class="media-body align-self-center">
+                                <p>&copy; <script>document.write(new Date().getFullYear())</script> | Event Manager</p>
+                            </div>  <!--media-body-->
+                        </div>  <!--media-->
+                    </div>  <!--col-->
+                    <!-- SOCIAL LINKS -->
+                    <div class="col text-center">
+                        <a class="btn btn-instagram btn-lg" href="http://instagram.com/"> 
+                            <i class="fa fa-instagram fa-md"></i> 
+                        </a>
+                        <a class="btn btn-facebook btn-lg" href="http://facebook.com/"> 
+                            <i class="fa fa-facebook fa-md"></i>
+                        </a>
+                        <a class="btn btn-twitter btn-lg" href="http://twitter.com/">
+                            <i class="fa fa-twitter fa-md"></i>
+                        </a>
+                        <a class="btn btn-youtube btn-lg" href="http://youtube.com/">
+                            <i class="fa fa-youtube fa-md"></i>
+                        </a>
+                    </div>  <!--col-->
+                    <div class="col text-right">
+                        <a class="btn btn-floating" href="#">
+                            <i class="fa fa-arrow-circle-up"></i> Back to top
+                        </a>
+                    </div>  <!--col-->
+                </div> <!--row-->
+            </div>  <!--container-->
+        </footer>
+
+        <!-- JavaScript Bundle for Bootstrap-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!-- Owl Carousel script-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <!-- Custom Scripts-->
+        <script src="{{ url_for('static', filename='js/scripts.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/numsVal.js')}}"></script>
+    </body>
+</html>

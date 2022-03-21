@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS -->   
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!--Custom Styles-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login-signup-styles.css')}}" /> 
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
+
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.png')}}" />
+        <title>Update Personal Information | Event Manager</title>
+    </head>
+
+    <body>
+        <div class="fillout-form">
+            <form action="#" method="POST">
+                <div class="text-center mb-4">
+                    <a href="index.html"><img src="{{ url_for('static', filename='img/logo.png')}}" alt="Event Manager logo" style="width: 100px;"></a> 
+                </div>  <!--text-center-->
+                
+                <h3>Update Account</h3>
+                <hr>
+                
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="fn" placeholder="First Name" value="{{ firstName }}" required="required">     <!--incoming/outgoing first name-->
+                        </div>  <!--col-->
+                        <div class="col">
+                            <input type="text" class="form-control" name="ln" placeholder="Last Name" value="{{ lastName }}" required="required">      <!--incoming/outgoing last name-->
+                        </div>  <!--col-->
+                    </div>  <!--row-->   	
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="username" class="form-control" name="nm" placeholder="Username" value="{{ username }}" required="required">           <!--incoming/outgoing user name-->
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="password" class="form-control" name="opw" placeholder="Old Password" value="" required="required">           <!--outgoing password-->
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="password" class="form-control" name="pw" placeholder="New or Current Password" value="" required="required">                   <!--incoming new password-->
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <input type="address" class="form-control" name="address" placeholder="Address" value="{{ address }}" required="required">        <!--incoming address-->
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="city" placeholder="City" value="{{ city }}" required="required">         <!--incoming city-->
+                        </div>
+                    </div>
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="zip" placeholder="Zip" value="{{ zipcode }}" required="required" onkeypress="numbersOnly(event)">         <!--incoming zip-->
+                        </div>  <!--col-->
+                        <div class="form-group col-md-7">
+                            <select name="state" id="eventState" class="form-control" value="{{eventState}}">                                                       <!--incoming event state-->
+                                <option disabled selected>Select State...</option>
+                                <option value="AL"{%  if state == 'AL' %} selected {% endif %}>Alabama</option>
+                                <option value="AK"{%  if state == 'AK' %} selected {% endif %}>Alaska</option>
+                                <option value="AZ"{%  if state == "AZ" %} selected {% endif %}>Arizona</option>
+                                <option value="AR"{%  if state == 'AR' %} selected {% endif %}>Arkansas</option>
+                                <option value="CA"{%  if state == "CA" %} selected {% endif %}>California</option>
+                                <option value="CO"{%  if state == "CO" %} selected {% endif %}>Colorado</option>
+                                <option value="CT"{%  if state == "CT" %} selected {% endif %}>Connecticut</option>
+                                <option value="DE"{%  if state == "DE" %} selected {% endif %}>Delaware</option>
+                                <option value="DC"{%  if state == "DC" %} selected {% endif %}>District Of Columbia</option>
+                                <option value="FL"{%  if state == "FL" %} selected {% endif %}>Florida</option>
+                                <option value="GA"{%  if state == "GA" %} selected {% endif %}>Georgia</option>
+                                <option value="HI"{%  if state == "HI" %} selected {% endif %}>Hawaii</option>
+                                <option value="ID"{%  if state == "ID" %} selected {% endif %}>Idaho</option>
+                                <option value="IL"{%  if state == "IL" %} selected {% endif %}>Illinois</option>
+                                <option value="IN"{%  if state == "IN" %} selected {% endif %}>Indiana</option>
+                                <option value="IA"{%  if state == "IA" %} selected {% endif %}>Iowa</option>
+                                <option value="KS"{%  if state == "KS" %} selected {% endif %}>Kansas</option>
+                                <option value="KY"{%  if state == "KY" %} selected {% endif %}>Kentucky</option>
+                                <option value="LA"{%  if state == "LA" %} selected {% endif %}>Louisiana</option>
+                                <option value="ME"{%  if state == "ME" %} selected {% endif %}>Maine</option>
+                                <option value="MD"{%  if state == "MD" %} selected {% endif %}>Maryland</option>
+                                <option value="MA"{%  if state == "MA" %} selected {% endif %}>Massachusetts</option>
+                                <option value="MI"{%  if state == "MI" %} selected {% endif %}>Michigan</option>
+                                <option value="MN"{%  if state == "MN" %} selected {% endif %}>Minnesota</option>
+                                <option value="MS"{%  if state == "MS" %} selected {% endif %}>Mississippi</option>
+                                <option value="MO"{%  if state == "MO" %} selected {% endif %}>Missouri</option>
+                                <option value="MT"{%  if state == "MT" %} selected {% endif %}>Montana</option>
+                                <option value="NE"{%  if state == "NE" %} selected {% endif %}>Nebraska</option>
+                                <option value="NV"{%  if state == "NV" %} selected {% endif %}>Nevada</option>
+								<option value="NH"{%  if state == "NH" %} selected {% endif %}>New Hampshire</option>
+                                <option value="NJ"{%  if state == "NJ" %} selected {% endif %}>New Jersey</option>
+                                <option value="NM"{%  if state == "NM" %} selected {% endif %}>New Mexico</option>
+                                <option value="NY"{%  if state == "NY" %} selected {% endif %}>New York</option>
+                                <option value="NC"{%  if state == "NC" %} selected {% endif %}>North Carolina</option>
+                                <option value="ND"{%  if state == "ND" %} selected {% endif %}>North Dakota</option>
+                                <option value="OH"{%  if state == "OH" %} selected {% endif %}>Ohio</option>
+                                <option value="OK"{%  if state == "OK" %} selected {% endif %}>Oklahoma</option>
+                                <option value="OR"{%  if state == "OR" %} selected {% endif %}>Oregon</option>
+                                <option value="PA"{%  if state == "PA" %} selected {% endif %}>Pennsylvania</option>
+                                <option value="RI"{%  if state == "RI" %} selected {% endif %}>Rhode Island</option>
+                                <option value="SC"{%  if state == "SC" %} selected {% endif %}>South Carolina</option>
+                                <option value="SD"{%  if state == "SD" %} selected {% endif %}>South Dakota</option>
+                                <option value="TN"{%  if state == "TN" %} selected {% endif %}>Tennessee</option>
+                                <option value="TX"{%  if state == "TX" %} selected {% endif %}>Texas</option>
+                                <option value="UT"{%  if state == "UT" %} selected {% endif %}>Utah</option>
+                                <option value="VT"{%  if state == "VT" %} selected {% endif %}>Vermont</option>
+                                <option value="VA"{%  if state == "VA" %} selected {% endif %}>Virginia</option>
+                                <option value="WA"{%  if state == "WA" %} selected {% endif %}>Washington</option>
+                                <option value="WV"{%  if state == "WV" %} selected {% endif %}>West Virginia</option>
+                                <option value="WI"{%  if state == "WI" %} selected {% endif %}>Wisconsin</option>
+                                <option value="WY"{%  if state == "WY" %} selected {% endif %}>Wyoming</option>	
+                            </select>
+                        </div>
+                    </div>  <!--row-->   	
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="Email" value="{{ email }}" required="required">              <!--outgoing email-->
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="tel" class="form-control" name="phone" placeholder="Phone Number" value="{{ phone }}" required="required" onkeypress="numbersOnly(event)">    <!--outgoing phone-->
+                </div>  <!--form-group-->
+
+                <div class="form-group">
+                    <input type="submit" value="Save" name="submit" />   
+                </div>  <!--form-group-->
+
+                <p style="text-align: center;"><strong>OR</strong></p>
+
+                <div class="form-group">
+                    <input type="submit" value="Delete Account" name="remove" style="background-color: #dc3545;"/>   
+                </div>  <!--form-group-->   
+            </form>
+        </div>  <!--fillout-form-->
+
+        <!-- JavaScript Bundle for Bootstrap-->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <!-- Custom Scripts-->
+        <script src="{{ url_for('static', filename='js/numsVal.js')}}"></script>
+    </body>
+</html>
