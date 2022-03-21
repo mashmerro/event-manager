@@ -1,10 +1,10 @@
 import mysql.connector
 import datetime
 import hashlib
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem import PorterStemmer
+# import nltk
+# from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from nltk.stem import PorterStemmer
 class DataB:
     
     #====================== OPEN DATABASE =========================================
